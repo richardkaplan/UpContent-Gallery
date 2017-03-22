@@ -1,0 +1,159 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../upcontent-carousel/upcontent-carousel.html">
+
+<!--
+`upcontent-topic-preview`
+
+
+@demo demo/index.html 
+-->
+
+<dom-module id="upcontent-topic-preview">
+
+    <template>
+
+        <style>
+        a.topic {
+            width: 31.5rem;
+            height: 22rem;
+            border: 1px solid #f4f4f4;
+            overflow: visible;
+            display: inline-block;
+            margin: 1rem;
+            color: inherit;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        a.topic > upcontent-carousel {
+            height: 18.5rem;
+            width: 31.5rem;
+            overflow: visible;
+        }
+
+        a.topic > upcontent-carousel > div.slide {
+            overflow: visible;
+        }
+
+        a.topic > upcontent-carousel > div.slide div.headline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            margin: 1rem;
+            font-weight: lighter;
+            color: #fff;
+            width: 20rem;
+            height: 4rem;
+            display: inline;
+            overflow: hidden;
+        }
+
+        a.topic > upcontent-carousel > div.slide div.headline span {
+            background-color: rgb(119, 85, 205);
+        }
+
+        a.topic > upcontent-carousel > div.slide div.source {
+            position: absolute;
+            bottom: -.5rem;
+            right: 0;
+            height: 1rem;
+            line-height: 1rem;
+            font-size: .75rem;
+            font-weight: normal;
+            color: #fff;
+            display: inline;
+            text-align: center;
+            background-color: #4bb4d2;
+            padding: 0 1rem;
+        }
+
+        a.topic > upcontent-carousel > div.slide > img {
+            width: 100%;
+            height: 100%;
+        }
+
+        a.topic > div.topic-info {
+            height: 3.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-flow: row no-wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        a.topic > div.topic-info span.title {
+            text-transform: uppercase;
+            flex-grow: 1;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #565656; 
+            text-transform: uppercase;
+        }
+
+        a.topic > div.topic-info span.count {
+            flex-shrink: 0;
+            flex-grow: 0;
+            font-size: 1rem;
+            font-weight: normal;
+            color: #565656; 
+        }
+
+        </style>
+
+        <a href$="[[ linkPrefix ]][[ topic_id ]]/" class="topic">
+            <upcontent-carousel>
+                <template id="slide" is="dom-repeat" items="{{ suggestions }}">
+                    <div class="slide">
+                        <div class="headline"><span>[[ item.title ]]</span></div>
+                        <div class="source">[[ item.creator ]]</div>
+                        <img src="[[ item.final_image_url ]]">
+                    </div>
+                </template>
+            </upcontent-carousel>
+            <div class="topic-info">
+                <span class="title">[[ name ]]</span>
+                <span class="count">[[ suggestionCount ]] Articles</span>
+            </div>
+        </a>
+    </template>
+
+  <script src="../../bower_components/fetch/fetch.js"></script>
+  <script>
+  Polymer({
+    is: 'upcontent-topic-preview',
+    properties: {
+        topic: String,
+        name: String,
+        suggestionCount: String,
+        linkPrefix: String,
+    },
+    ready: function() {
+        var instance = this;
+        fetch('https://api.upcontent.com/topics/' + this.topic + '/preview?sort=recency&status=SAVED')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(json) {
+            instance.topic_id = json.id;
+            instance.name = json.name;
+            instance.suggestionCount = json.suggestion_total.toLocaleString();
+
+            var suggestions = json.suggestions;
+            for (let i = 0; i < suggestions.length; i++) {
+                if (suggestions[i].image_url) {
+                    suggestions[i].final_image_url = suggestions[i].image_url.replace('500x', '504x296');
+                } else {
+                    suggestions[i].final_image_url = suggestions[i].image_url;
+                }
+            }
+
+            instance.suggestions = suggestions;
+        });
+    },
+  });
+  </script>
+
+</dom-module>

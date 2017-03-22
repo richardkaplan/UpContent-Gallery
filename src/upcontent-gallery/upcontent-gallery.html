@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+<link rel="import" href="../upcontent-topic-list/upcontent-topic-list.html">
+<link rel="import" href="../upcontent-suggestion-list/upcontent-suggestion-list.html">
+<link rel="import" href="../overlay/overlay.html">
+
+<dom-module id="upcontent-gallery">
+  <template>
+    <style>
+    </style>
+    <app-location route="{{ route }}" url-space-regex="^#/" use-hash-as-path></app-location>
+    <app-route route="[[ route ]]" pattern="/:page" active="{{ topicsActive }}" data="{{ data }}" tail="{{ tail }}"></app-route>
+    <app-route route="[[ tail ]]" pattern="/:topic/" data="{{ subdata }}" active="{{ suggestionsActive }}"></app-route>
+
+    <loading-overlay active="[[ isLoading ]]"></loading-overlay>
+
+    <iron-pages selected="[[ data.page ]]" attr-for-selected="name" fallback-selection="topics">
+        <upcontent-topic-list name="topics" topics="[[ topics ]]"></upcontent-topic-list>
+        <div name="view">
+            <a href="#/">Back</a>
+            <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}"></upcontent-suggestion-list>
+        </div>
+    </iron-pages>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'upcontent-gallery',
+      properties: {
+          "topics": {
+              "type": Array
+          }
+      }
+    });
+  </script>
+</dom-module>

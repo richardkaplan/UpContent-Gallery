@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link>
+
+<dom-module id="loading-overlay">
+  <template>
+    <style>
+      :host > div {
+        background: white;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <div hidden$="[[ !active ]]">
+        <paper-spinner active="{{ active }}"></paper-spinner>
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+(function() {
+  Polymer({
+    is: 'loading-overlay',
+    properties: {
+        active: {
+            type: Boolean
+        }
+    }
+  });
+})();
+</script>

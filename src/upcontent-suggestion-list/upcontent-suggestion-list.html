@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../upcontent-suggestion/upcontent-suggestion.html">
+
+<dom-module id="upcontent-suggestion-list">
+  <template>
+    <style>
+    </style>
+    <div id="list">
+        <template is="dom-repeat"
+                  items="[[ suggestions ]]">
+            <upcontent-suggestion headline="[[ item.title ]]"
+                                  date="[[ item.posted ]]"
+                                  url="[[ item.article_url ]]"
+                                  id="[[ item.id ]]"
+                                  image-url="[[ item.image_url ]]"
+                                  excerpt="[[ item.text ]]"
+                                  source="[[ item.creator ]]"></upcontent-suggestion>
+        </template>
+    </div>
+
+  </template>
+
+  <script src="../../bower_components/fetch/fetch.js"></script>
+  <script>
+    Polymer({
+      is: "upcontent-suggestion-list",
+      properties: {
+          "topic": {
+              type: String,
+              observer: 'getSuggestions'
+          },
+          "suggestions": {
+              type: Array,
+              value: []
+          },
+          "loading": {
+              "type": Boolean,
+              "value": false,
+              "notify": true
+          }
+      },
+      attached: function() {
+      },
+      getSuggestions: function() {
+          if (this.topic) {
+              var instance = this;
+              this.loading = true;
+              fetch('https://api.upcontent.com/topics/' + this.topic + '/suggestions?age=90&sort=recency&status=SAVED')
+              .then(function(response) {
+                  return response.json();
+              })
+              .then(function(json) {
+                  instance.suggestions = json.suggestions;
+                  instance.loading = false;
+              });
+          }
+      }
+    });
+  </script>
+</dom-module>

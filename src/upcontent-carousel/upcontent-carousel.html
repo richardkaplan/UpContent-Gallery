@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!--
+`upcontent-carousel`
+
+
+@demo demo/index.html 
+-->
+
+<dom-module id="upcontent-carousel">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      :host ::content > * {
+        opacity: 0;
+        transition: opacity .5s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+      }
+
+      :host ::content > *:first-child {
+        opacity: 100;
+        transition: opacity .5s;
+        z-index: 10;
+      }
+
+    </style>
+
+    <content></content>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'upcontent-carousel',
+      properties: {
+          position: Number
+      },
+      attached: function() {
+        var instance = this;
+        this.slides = [];
+
+        console.log(this);
+        console.log(Polymer.dom(this));
+
+        //var boundUpdateChildren = this.updateChildren.bind(this);
+
+        this._observer = Polymer.dom(this).observeNodes(this.updateChildren);
+
+        this.position = 0;
+
+        this.switch = function() {
+          if (instance.slides.length < 2) {
+              return;
+          }
+
+          var oldPosition = instance.position;
+
+          instance.position = (instance.position + 1) % instance.slides.length;
+
+          instance.slides[instance.position].style['z-index'] = 10;
+          instance.slides[oldPosition].style['z-index'] = 20;
+
+          instance.slides[instance.position].style.transition = 'none';
+          instance.slides[oldPosition].style.transition = 'opacity .5s';
+
+          instance.slides[instance.position].style.opacity = 1;
+          instance.slides[oldPosition].style.opacity = 0;
+        }
+
+        window.setInterval(this.switch, 4000);
+      },
+
+
+      updateChildren: function(e) {
+          for (let i = 0; i < e.addedNodes.length; i++) {
+              if (e.addedNodes[i].nodeType == Node.ELEMENT_NODE && e.addedNodes[i].tagName !== 'TEMPLATE') {
+                  this.slides.push(e.addedNodes[i]);
+              }
+          }
+
+          for (let i = 0; i < e.removedNodes.length; i++) {
+              if (e.removedNodes[i].nodeType == Node.ELEMENT_NODE) {
+                  for (let j = 0; j < this.slides.length; j++) {
+                      if (this.slides[j] === e.removedNodes[i]) {
+                          this.slides.splice(j, 1);
+                      }
+                  }
+              }
+          }
+      }
+    });
+  </script>
+</dom-module>
