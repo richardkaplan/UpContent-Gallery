@@ -29,14 +29,22 @@
               type: String,
               observer: 'getSuggestions'
           },
+          "limit": {
+              type: Number,
+              value: null
+          },
           "suggestions": {
               type: Array,
               value: []
           },
           "loading": {
-              "type": Boolean,
-              "value": false,
-              "notify": true
+              type: Boolean,
+              value: false,
+              notify: true
+          },
+          "status": {
+              type: String,
+              value: 'SAVED'
           }
       },
       attached: function() {
@@ -45,7 +53,18 @@
           if (this.topic) {
               var instance = this;
               this.loading = true;
-              fetch('https://api.upcontent.com/topics/' + this.topic + '/suggestions?age=90&sort=recency&status=SAVED')
+
+              var url = 'https://api.upcontent.com/topics/' + this.topic + '/suggestions?age=90&sort=recency';
+
+              if (this.status) {
+                  url = url + '&status=' + this.status;
+              }
+
+              if (this.limit) {
+                  url = url + '&limit=' + this.limit;
+              }
+
+              fetch(url)
               .then(function(response) {
                   return response.json();
               })
