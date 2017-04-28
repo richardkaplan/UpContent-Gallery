@@ -18,7 +18,7 @@
     <loading-overlay active="[[ isLoading ]]"></loading-overlay>
 
     <iron-pages selected="[[ data.page ]]" attr-for-selected="name" fallback-selection="topics">
-        <upcontent-topic-list name="topics" topics="[[ topics ]]"></upcontent-topic-list>
+        <upcontent-topic-list name="topics" topics="[[ topics ]]" fallback-image="{{ fallbackImage }}"></upcontent-topic-list>
         <div name="view">
             <a href="#/">Back</a>
             <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}" fallback-image="{{ fallbackImage }}"></upcontent-suggestion-list>

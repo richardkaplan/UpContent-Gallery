@@ -13,7 +13,7 @@
     </style>
 
     <template is="dom-repeat" items="[[ topics ]]">
-        <upcontent-topic-preview topic="[[ item ]]" link-prefix="#/view/"></upcontent-topic-preview>
+        <upcontent-topic-preview topic="[[ item ]]" link-prefix="#/view/" fallback-image="[[ fallbackImage ]]"></upcontent-topic-preview>
     </template>
 
   </template>
@@ -24,6 +24,10 @@
       properties: {
           "topics": {
               type: Array
+          },
+          "fallbackImage": {
+              type: String,
+              value: null
           }
       },
 
