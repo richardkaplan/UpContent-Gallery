@@ -14,7 +14,8 @@
                                   id="[[ item.id ]]"
                                   image-url="[[ item.image_url ]]"
                                   excerpt="[[ item.text ]]"
-                                  source="[[ item.creator ]]"></upcontent-suggestion>
+                                  source="[[ item.creator ]]"
+                                  fallback-image="[[ fallbackImage ]]"></upcontent-suggestion>
         </template>
     </div>
 
@@ -45,6 +46,10 @@
           "status": {
               type: String,
               value: 'SAVED'
+          },
+          "fallbackImage": {
+              type: String,
+              value: null
           }
       },
       attached: function() {

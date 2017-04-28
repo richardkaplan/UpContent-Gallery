@@ -21,7 +21,7 @@
         <upcontent-topic-list name="topics" topics="[[ topics ]]"></upcontent-topic-list>
         <div name="view">
             <a href="#/">Back</a>
-            <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}"></upcontent-suggestion-list>
+            <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}" fallback-image="{{ fallbackImage }}"></upcontent-suggestion-list>
         </div>
     </iron-pages>
   </template>
@@ -33,6 +33,10 @@
       properties: {
           "topics": {
               "type": Array
+          },
+          "fallbackImage": {
+              type: String,
+              value: null
           }
       }
     });
