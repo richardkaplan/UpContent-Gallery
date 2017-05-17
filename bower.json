@@ -3,9 +3,9 @@
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "iron-pages": "PolymerElements/iron-pages",
-    "app-router": "PolymerElements/app-route",
-    "paper-spinner": "PolymerElements/paper-spinner",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.9",
+    "app-router": "PolymerElements/app-route#^1.0.1",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.1",
     "fetch": "github/fetch",
     "moment": "moment/moment"
   },
