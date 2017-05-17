@@ -2,7 +2,7 @@
   "name": "gallery",
   "main": "index.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0",
+    "polymer": "Polymer/polymer#^1.9.1",
     "iron-pages": "PolymerElements/iron-pages#^1.0.9",
     "app-router": "PolymerElements/app-route#^1.0.1",
     "paper-spinner": "PolymerElements/paper-spinner#^1.2.1",
@@ -13,6 +13,6 @@
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
     "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.24"
   }
 }
