@@ -34,6 +34,14 @@
               type: Number,
               value: null
           },
+          "age": {
+              type: Number,
+              value: null
+          },
+          "sort": {
+              type: String,
+              value: null
+          },
           "suggestions": {
               type: Array,
               value: []
@@ -59,15 +67,48 @@
               var instance = this;
               this.loading = true;
 
-              var url = 'https://api.upcontent.com/topics/' + this.topic + '/suggestions?age=90&sort=recency';
+              var params = {};
 
-              if (this.status) {
-                  url = url + '&status=' + this.status;
+              if (this.age && this.age < 365) {
+                params['age'] = this.age
+              } else {
+                params['age'] = 90;
               }
 
-              if (this.limit) {
-                  url = url + '&limit=' + this.limit;
+              var sort;
+              if (
+                this.sort && (this.sort == 'relevance' || this.sort == 'influence' || this.sort == 'shareability' || this.sort == 'recency')
+              ) {
+                params['sort'] = this.sort;
+              } else {
+                params['sort'] = 'recency';
               }
+
+              if (this.status && this.status == 'SAVED') {
+                  params['status'] = this.status;
+              }
+
+              var limit;
+              if (this.limit && this.limit < 500) {
+                  params['limit'] = this.limit;
+              } else {
+                  params['limit'] = 100;
+              }
+
+              var properties = Object.keys(params);
+
+              var querystring = '';
+              for (var n = 0; n < properties.length; n++) {
+                  if (n == 0) {
+                      querystring = querystring + '?';
+                  } else {
+                      querystring = querystring + '&';
+                  }
+
+                  querystring = querystring + properties[n] + '=' + params[properties[n]];
+              }
+
+              var url = 'https://api.upcontent.com/topics/' + this.topic + '/suggestions' + querystring;
 
               fetch(url)
               .then(function(response) {
