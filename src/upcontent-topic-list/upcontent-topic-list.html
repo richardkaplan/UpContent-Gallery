@@ -13,7 +13,7 @@
     </style>
 
     <template is="dom-repeat" items="[[ topics ]]">
-        <upcontent-topic-preview topic="[[ item ]]" link-prefix="#/view/" fallback-image="[[ fallbackImage ]]"></upcontent-topic-preview>
+        <upcontent-topic-preview topic="[[ item ]]" link-prefix="#/view/" fallback-image="[[ fallbackImage ]]" sort="{{ sort }}" status="{{ status }}" age="{{ age }}"></upcontent-topic-preview>
     </template>
 
   </template>
@@ -22,15 +22,26 @@
     Polymer({
       is: "upcontent-topic-list",
       properties: {
-          "topics": {
-              type: Array
-          },
-          "fallbackImage": {
-              type: String,
-              value: null
-          }
-      },
-
+        topics: {
+            type: Array
+        },
+        fallbackImage: {
+            type: String,
+            value: null
+        },
+        age: {
+            type: Number,
+            value: 90
+        },
+        sort: {
+            type: String,
+            value: 'recency'
+        },
+        status: {
+            type: String,
+            value: 'SAVED'
+        }
+      }
     });
   </script>
 </dom-module>

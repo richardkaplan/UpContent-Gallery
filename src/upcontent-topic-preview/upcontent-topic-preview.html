@@ -155,6 +155,18 @@
     properties: {
         topic: String,
         name: String,
+        age: {
+            type: Number,
+            value: 90
+        },
+        sort: {
+            type: String,
+            value: 'recency'
+        },
+        status: {
+            type: String,
+            value: 'SAVED'
+        },
         suggestionCount: String,
         linkPrefix: String,
         fallbackImage: {
@@ -164,7 +176,14 @@
     },
     ready: function() {
         var instance = this;
-        fetch('https://api.upcontent.com/topics/' + this.topic + '/preview?sort=recency&status=SAVED')
+
+        url = 'https://api.upcontent.com/topics/' + this.topic + '/preview?sort=' + this.sort + '&age=' + this.age;
+
+        if (this.status) {
+            url = url + '&status=' + this.status;
+        }
+
+        fetch(url)
         .then(function(response) {
             return response.json();
         })

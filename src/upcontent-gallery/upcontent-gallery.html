@@ -18,25 +18,36 @@
     <loading-overlay active="[[ isLoading ]]"></loading-overlay>
 
     <iron-pages selected="[[ data.page ]]" attr-for-selected="name" fallback-selection="topics">
-        <upcontent-topic-list name="topics" topics="[[ topics ]]" fallback-image="{{ fallbackImage }}"></upcontent-topic-list>
+        <upcontent-topic-list name="topics" topics="{{ topics }}" fallback-image="{{ fallbackImage }}" sort="{{ sort }}" status="{{ status }}" age="{{ age }}"></upcontent-topic-list>
         <div name="view">
             <a href="#/">Back</a>
-            <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}" fallback-image="{{ fallbackImage }}"></upcontent-suggestion-list>
+            <upcontent-suggestion-list name="view" topic="{{ subdata.topic }}" loading="{{ isLoading }}" fallback-image="{{ fallbackImage }}" sort="{{ sort }}" status="{{ status }}" age="{{ age }}"></upcontent-suggestion-list>
         </div>
     </iron-pages>
   </template>
 
   <script>
     Polymer({
-
       is: 'upcontent-gallery',
       properties: {
-          "topics": {
-              "type": Array
+          topics: {
+              type: Array
           },
-          "fallbackImage": {
+          fallbackImage: {
               type: String,
               value: null
+          },
+          age: {
+              type: Number,
+              value: 90
+          },
+          sort: {
+              type: String,
+              value: 'recency'
+          },
+          status: {
+              type: String,
+              value: 'SAVED'
           }
       }
     });
