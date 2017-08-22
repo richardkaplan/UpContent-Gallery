@@ -36,11 +36,11 @@
           },
           "age": {
               type: Number,
-              value: null
+              value: 90
           },
           "sort": {
               type: String,
-              value: null
+              value: 'recency'
           },
           "suggestions": {
               type: Array,
@@ -69,7 +69,7 @@
 
               var params = {};
 
-              if (this.age && this.age < 365) {
+              if (this.age && this.age <= 365) {
                 params['age'] = this.age
               } else {
                 params['age'] = 90;
